@@ -1524,7 +1524,9 @@ rust_crate(
         ":bytes",
         ":libc",
         ":mio",
+        ":pin_project_lite",
         ":socket2",
+        ":tokio_macros",
     ],
 )
 
@@ -1533,7 +1535,9 @@ rust_crate(
     crate = "tokio-macros",
     version = "2.6.0",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
