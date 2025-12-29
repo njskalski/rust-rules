@@ -219,6 +219,7 @@ rust_crate(
     version = "1.2.51",
     edition = "2021",
     deps = [
+        ":find_msvc_tools",
         ":shlex",
     ],
 )
@@ -386,6 +387,10 @@ rust_crate(
         "default",
         "std",
     ],
+    deps = [
+        ":crossbeam_epoch",
+        ":crossbeam_utils",
+    ],
 )
 
 rust_crate(
@@ -397,6 +402,7 @@ rust_crate(
         "alloc",
         "std",
     ],
+    deps = [":crossbeam_utils"],
 )
 
 rust_crate(
@@ -1015,6 +1021,11 @@ rust_crate(
         "plotters-svg",
         "svg_backend",
     ],
+    deps = [
+        ":num_traits",
+        ":plotters_backend",
+        ":plotters_svg",
+    ],
 )
 
 rust_crate(
@@ -1084,6 +1095,7 @@ rust_crate(
     ],
     deps = [
         ":bytes",
+        ":prost_derive",
     ],
 )
 
@@ -1239,6 +1251,10 @@ rust_crate(
     crate = "rayon-core",
     version = "1.13.0",
     edition = "2021",
+    deps = [
+        ":crossbeam_deque",
+        ":crossbeam_utils",
+    ],
 )
 
 rust_crate(
@@ -1825,6 +1841,7 @@ rust_crate(
     crate = "walkdir",
     version = "2.5.0",
     edition = "2021",
+    deps = [":same_file"],
 )
 
 rust_crate(
@@ -1899,6 +1916,7 @@ rust_crate(
     crate = "wasm-bindgen-shared",
     version = "0.2.106",
     edition = "2021",
+    deps = [":unicode_ident"],
 )
 
 rust_crate(
