@@ -79,6 +79,13 @@ rust_crate(
 )
 
 rust_crate(
+    name = "cfg_if",
+    crate = "cfg-if",
+    version = "1.0.4",
+    edition = "2021",
+)
+
+rust_crate(
     name = "clap",
     crate = "clap",
     version = "4.5.53",
@@ -157,6 +164,22 @@ rust_crate(
 )
 
 rust_crate(
+    name = "getrandom",
+    crate = "getrandom",
+    version = "0.3.4",
+    edition = "2021",
+    features = [
+        "std",
+    ],
+    deps = [
+        ":cfg_if",
+        ":libc",
+        ":r_efi",
+        ":wasip2",
+    ],
+)
+
+rust_crate(
     name = "hashbrown",
     crate = "hashbrown",
     version = "0.16.1",
@@ -203,6 +226,13 @@ rust_crate(
 )
 
 rust_crate(
+    name = "libc",
+    crate = "libc",
+    version = "0.2.178",
+    edition = "2021",
+)
+
+rust_crate(
     name = "memchr",
     crate = "memchr",
     version = "2.7.6",
@@ -224,6 +254,20 @@ rust_crate(
 )
 
 rust_crate(
+    name = "ppv_lite86",
+    crate = "ppv-lite86",
+    version = "0.2.21",
+    edition = "2021",
+    features = [
+        "simd",
+        "std",
+    ],
+    deps = [
+        ":zerocopy",
+    ],
+)
+
+rust_crate(
     name = "proc_macro2",
     crate = "proc-macro2",
     version = "1.0.104",
@@ -231,6 +275,9 @@ rust_crate(
     features = [
         "default",
         "proc-macro",
+    ],
+    deps = [
+        ":unicode_ident",
     ],
 )
 
@@ -242,6 +289,64 @@ rust_crate(
     features = [
         "default",
         "proc-macro",
+    ],
+    deps = [
+        ":proc_macro2",
+    ],
+)
+
+rust_crate(
+    name = "r_efi",
+    crate = "r-efi",
+    version = "5.3.0",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "rand",
+    crate = "rand",
+    version = "0.9.2",
+    edition = "2021",
+    features = [
+        "alloc",
+        "default",
+        "os_rng",
+        "small_rng",
+        "std",
+        "std_rng",
+        "thread_rng",
+    ],
+    deps = [
+        ":rand_chacha",
+        ":rand_core",
+    ],
+)
+
+rust_crate(
+    name = "rand_chacha",
+    crate = "rand_chacha",
+    version = "0.9.0",
+    edition = "2021",
+    features = [
+        "std",
+    ],
+    deps = [
+        ":ppv_lite86",
+        ":rand_core",
+    ],
+)
+
+rust_crate(
+    name = "rand_core",
+    crate = "rand_core",
+    version = "0.9.3",
+    edition = "2021",
+    features = [
+        "os_rng",
+        "std",
+    ],
+    deps = [
+        ":getrandom",
     ],
 )
 
@@ -356,6 +461,8 @@ rust_crate(
     ],
     deps = [
         ":quote",
+        ":proc_macro2",
+        ":unicode_ident",
     ],
 )
 
@@ -440,6 +547,16 @@ rust_crate(
 )
 
 rust_crate(
+    name = "wasip2",
+    crate = "wasip2",
+    version = "1.0.1+wasi-0.2.4",
+    edition = "2021",
+    deps = [
+        ":wit_bindgen",
+    ],
+)
+
+rust_crate(
     name = "windows_link",
     crate = "windows-link",
     version = "0.2.1",
@@ -476,9 +593,43 @@ rust_crate(
 )
 
 rust_crate(
+    name = "wit_bindgen",
+    crate = "wit-bindgen",
+    version = "0.46.0",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "zerocopy",
+    crate = "zerocopy",
+    version = "0.8.31",
+    edition = "2021",
+    features = [
+        "simd",
+    ],
+    deps = [
+        ":zerocopy_derive",
+    ],
+)
+
+rust_crate(
+    name = "zerocopy_derive",
+    crate = "zerocopy-derive",
+    version = "0.8.31",
+    edition = "2021",
+    deps = [
+        ":proc_macro2",
+        ":quote",
+        ":syn",
+    ],
+)
+
+rust_crate(
     name = "zmij",
     crate = "zmij",
     version = "1.0.2",
     edition = "2021",
 )
+
+
 
