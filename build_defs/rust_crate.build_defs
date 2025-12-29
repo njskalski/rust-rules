@@ -70,6 +70,9 @@ def _rustc_crate_cmds(
         cmd.append(f'--edition={edition}')
     if src_root:
         cmd.append(f'$SRCS/{src_root}')
+    elif src_root == '':  # Auto-detect mode
+        # Use a shell conditional to try src/lib.rs first, then lib.rs
+        cmd.append('$(if [ -f "$SRCS/src/lib.rs" ]; then echo "$SRCS/src/lib.rs"; elif [ -f "$SRCS/lib.rs" ]; then echo "$SRCS/lib.rs"; elif [ -f "$SRCS/src/main.rs" ]; then echo "$SRCS/src/main.rs"; elif [ -f "$SRCS/main.rs" ]; then echo "$SRCS/main.rs"; else echo "$SRCS/src/lib.rs"; fi)')
     else:
         cmd.append('$SRCS')
     if err_format:
@@ -144,15 +147,13 @@ def rust_crate_download(
         url=url,
         out=f'{base}_download',
     )
-    # Extract the tarball .cargo file.
+    # Extract the tarball.
     extraction = build_rule(
         name=base,
         tag="extraction",
         srcs=[download],
         outs = [f'{base}'],
-        cmd = ' && '.join([
-            'tar -xvzf $SRCS',
-        ]),
+        cmd = 'tar -xvzf $SRCS',
         building_description = f'Extracting {base}...',
     )
     return filegroup(
@@ -164,7 +165,7 @@ def rust_crate_download(
 
 def rust_crate(
         # Crate params.
-        name:str, crate:str, version:str='', download:str='', edition:str='2015', src_root:str='src/lib.rs',
+        name:str, crate:str, version:str='', download:str='', edition:str='2015', src_root:str='',
         features:list=None, deps:list=[], renamed_deps:dict={}, crate_type:str='lib', out_dir:str='target/debug/deps',
         warns:list=None, allows:list=None, compile_env:dict=None,     
         # Build params.
@@ -224,7 +225,7 @@ def rust_crate(
         crate_name=crate_name,
         version=version,
         edition=edition,
-        src_root=src_root,
+        src_root=src_root,  # Empty string enables auto-detection in command
         err_format='human',
         crate_type=crate_type,
         features=features,
@@ -239,6 +240,7 @@ def rust_crate(
     version_parts = version.split('.')
     major = version_parts[0]
     minor = version_parts[1] if len(version_parts) > 1 else '0'
+    
     return build_rule(
         name = name,
         srcs = [download],

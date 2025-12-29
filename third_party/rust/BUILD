@@ -51,6 +51,9 @@ rust_crate(
     ],
     deps = [
         ":anstyle",
+        ":anstyle_parse",
+        ":anstyle_query",
+        ":anstyle_wincon",
         ":colorchoice",
         ":is_terminal_polyfill",
         ":utf8parse",
@@ -649,7 +652,7 @@ rust_crate(
 rust_crate(
     name = "httparse",
     crate = "httparse",
-    version = "1.10.1",
+    version = "1.9.5",
     edition = "2021",
     features = [
         "default",
@@ -1791,6 +1794,9 @@ rust_crate(
     crate = "want",
     version = "0.3.1",
     edition = "2021",
+    deps = [
+        ":try_lock",
+    ],
 )
 
 rust_crate(
