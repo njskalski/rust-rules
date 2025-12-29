@@ -133,13 +133,6 @@ rust_crate(
 )
 
 rust_crate(
-    name = "autocfg",
-    crate = "autocfg",
-    version = "1.5.0",
-    edition = "2021",
-)
-
-rust_crate(
     name = "axum",
     crate = "axum",
     version = "0.8.8",
@@ -510,6 +503,9 @@ rust_crate(
         "default",
         "std",
     ],
+    deps = [
+        ":futures_core",
+    ],
 )
 
 rust_crate(
@@ -656,7 +652,7 @@ rust_crate(
 rust_crate(
     name = "httparse",
     crate = "httparse",
-    version = "1.9.5",
+    version = "1.10.1",
     edition = "2021",
     features = [
         "default",
@@ -853,7 +849,7 @@ rust_crate(
     name = "mime",
     crate = "mime",
     version = "0.3.17",
-    edition = "2021",
+    edition = "2015",
 )
 
 rust_crate(
@@ -887,9 +883,6 @@ rust_crate(
     features = [
         "default",
         "std",
-    ],
-    deps = [
-        ":autocfg",
     ],
 )
 
@@ -1306,6 +1299,7 @@ rust_crate(
     crate = "rustversion",
     version = "1.0.22",
     edition = "2021",
+    build_root = "build/build.rs",
 )
 
 rust_crate(
