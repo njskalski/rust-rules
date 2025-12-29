@@ -572,14 +572,18 @@ rust_crate(
     name = "h2",
     crate = "h2",
     version = "0.4.12",
-    edition = "2021",
+    edition = "2018",
     deps = [
+        ":atomic_waker",
         ":bytes",
         ":fnv",
+        ":futures_core",
+        ":futures_sink",
         ":http",
         ":indexmap",
         ":slab",
         ":tokio",
+        ":tokio_util",
         ":tracing",
     ],
 )
@@ -680,7 +684,10 @@ rust_crate(
         "server",
     ],
     deps = [
+        ":atomic_waker",
         ":bytes",
+        ":futures_core",
+        ":futures_sink",
         ":h2",
         ":http",
         ":httparse",
@@ -688,6 +695,7 @@ rust_crate(
         ":itoa",
         ":smallvec",
         ":tokio",
+        ":tokio_util",
         ":want",
     ],
 )
@@ -1568,6 +1576,9 @@ rust_crate(
     ],
     deps = [
         ":bytes",
+        ":futures_core",
+        ":futures_sink",
+        ":pin_project_lite",
         ":tokio",
     ],
 )
