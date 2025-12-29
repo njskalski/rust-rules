@@ -20,6 +20,26 @@ rust_crate(
 )
 
 rust_crate(
+    name = "alloca",
+    crate = "alloca",
+    version = "0.4.0",
+    edition = "2021",
+    deps = [
+        ":cc",
+    ],
+)
+
+rust_crate(
+    name = "anes",
+    crate = "anes",
+    version = "0.1.6",
+    edition = "2021",
+    features = [
+        "default",
+    ],
+)
+
+rust_crate(
     name = "anstream",
     crate = "anstream",
     version = "0.6.21",
@@ -110,6 +130,13 @@ rust_crate(
 )
 
 rust_crate(
+    name = "autocfg",
+    crate = "autocfg",
+    version = "1.5.0",
+    edition = "2021",
+)
+
+rust_crate(
     name = "axum",
     crate = "axum",
     version = "0.8.8",
@@ -163,6 +190,16 @@ rust_crate(
 )
 
 rust_crate(
+    name = "bumpalo",
+    crate = "bumpalo",
+    version = "3.19.1",
+    edition = "2021",
+    features = [
+        "default",
+    ],
+)
+
+rust_crate(
     name = "bytes",
     crate = "bytes",
     version = "1.11.0",
@@ -174,10 +211,62 @@ rust_crate(
 )
 
 rust_crate(
+    name = "cast",
+    crate = "cast",
+    version = "0.3.0",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "cc",
+    crate = "cc",
+    version = "1.2.51",
+    edition = "2021",
+    deps = [
+        ":shlex",
+    ],
+)
+
+rust_crate(
     name = "cfg_if",
     crate = "cfg-if",
     version = "1.0.4",
     edition = "2021",
+)
+
+rust_crate(
+    name = "ciborium",
+    crate = "ciborium",
+    version = "0.2.2",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
+    ],
+    deps = [
+        ":serde",
+    ],
+)
+
+rust_crate(
+    name = "ciborium_io",
+    crate = "ciborium-io",
+    version = "0.2.2",
+    edition = "2021",
+    features = [
+        "alloc",
+        "std",
+    ],
+)
+
+rust_crate(
+    name = "ciborium_ll",
+    crate = "ciborium-ll",
+    version = "0.2.2",
+    edition = "2021",
+    deps = [
+        ":half",
+    ],
 )
 
 rust_crate(
@@ -252,6 +341,91 @@ rust_crate(
 )
 
 rust_crate(
+    name = "criterion",
+    crate = "criterion",
+    version = "0.8.1",
+    edition = "2021",
+    features = [
+        "cargo_bench_support",
+        "default",
+        "plotters",
+        "rayon",
+    ],
+    deps = [
+        ":alloca",
+        ":anes",
+        ":cast",
+        ":ciborium",
+        ":clap",
+        ":itertools",
+        ":oorandom",
+        ":page_size",
+        ":plotters",
+        ":rayon",
+        ":regex",
+        ":serde",
+        ":serde_json",
+        ":tinytemplate",
+        ":walkdir",
+    ],
+)
+
+rust_crate(
+    name = "criterion_plot",
+    crate = "criterion-plot",
+    version = "0.8.1",
+    edition = "2021",
+    deps = [
+        ":cast",
+        ":itertools",
+    ],
+)
+
+rust_crate(
+    name = "crossbeam_deque",
+    crate = "crossbeam-deque",
+    version = "0.8.6",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
+    ],
+)
+
+rust_crate(
+    name = "crossbeam_epoch",
+    crate = "crossbeam-epoch",
+    version = "0.9.18",
+    edition = "2021",
+    features = [
+        "alloc",
+        "std",
+    ],
+)
+
+rust_crate(
+    name = "crossbeam_utils",
+    crate = "crossbeam-utils",
+    version = "0.8.21",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
+    ],
+)
+
+rust_crate(
+    name = "crunchy",
+    crate = "crunchy",
+    version = "0.2.4",
+    edition = "2021",
+    features = [
+        "default",
+        "limit_128",
+    ],
+)
+
+rust_crate(
     name = "either",
     crate = "either",
     version = "1.15.0",
@@ -292,6 +466,13 @@ rust_crate(
         "default",
         "std",
     ],
+)
+
+rust_crate(
+    name = "find_msvc_tools",
+    crate = "find-msvc-tools",
+    version = "0.1.6",
+    edition = "2021",
 )
 
 rust_crate(
@@ -397,6 +578,17 @@ rust_crate(
         ":slab",
         ":tokio",
         ":tracing",
+    ],
+)
+
+rust_crate(
+    name = "half",
+    crate = "half",
+    version = "2.7.1",
+    edition = "2021",
+    deps = [
+        ":crunchy",
+        ":zerocopy",
     ],
 )
 
@@ -583,6 +775,19 @@ rust_crate(
 )
 
 rust_crate(
+    name = "js_sys",
+    crate = "js-sys",
+    version = "0.3.83",
+    edition = "2021",
+    features = [
+        "std",
+    ],
+    deps = [
+        ":once_cell",
+    ],
+)
+
+rust_crate(
     name = "libc",
     crate = "libc",
     version = "0.2.178",
@@ -668,6 +873,20 @@ rust_crate(
 )
 
 rust_crate(
+    name = "num_traits",
+    crate = "num-traits",
+    version = "0.2.19",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
+    ],
+    deps = [
+        ":autocfg",
+    ],
+)
+
+rust_crate(
     name = "once_cell",
     crate = "once_cell",
     version = "1.21.3",
@@ -687,6 +906,23 @@ rust_crate(
     edition = "2021",
     features = [
         "default",
+    ],
+)
+
+rust_crate(
+    name = "oorandom",
+    crate = "oorandom",
+    version = "11.1.5",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "page_size",
+    crate = "page_size",
+    version = "0.6.0",
+    edition = "2021",
+    deps = [
+        ":libc",
     ],
 )
 
@@ -742,6 +978,33 @@ rust_crate(
     name = "pin_utils",
     crate = "pin-utils",
     version = "0.1.0",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "plotters",
+    crate = "plotters",
+    version = "0.3.7",
+    edition = "2021",
+    features = [
+        "area_series",
+        "line_series",
+        "plotters-svg",
+        "svg_backend",
+    ],
+)
+
+rust_crate(
+    name = "plotters_backend",
+    crate = "plotters-backend",
+    version = "0.3.7",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "plotters_svg",
+    crate = "plotters-svg",
+    version = "0.3.7",
     edition = "2021",
 )
 
@@ -936,6 +1199,23 @@ rust_crate(
 )
 
 rust_crate(
+    name = "rayon",
+    crate = "rayon",
+    version = "1.11.0",
+    edition = "2021",
+    deps = [
+        ":either",
+    ],
+)
+
+rust_crate(
+    name = "rayon_core",
+    crate = "rayon-core",
+    version = "1.13.0",
+    edition = "2021",
+)
+
+rust_crate(
     name = "regex",
     crate = "regex",
     version = "1.12.2",
@@ -1009,6 +1289,20 @@ rust_crate(
 )
 
 rust_crate(
+    name = "rustversion",
+    crate = "rustversion",
+    version = "1.0.22",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "same_file",
+    crate = "same-file",
+    version = "1.0.6",
+    edition = "2021",
+)
+
+rust_crate(
     name = "serde",
     crate = "serde",
     version = "1.0.228",
@@ -1018,6 +1312,7 @@ rust_crate(
         "derive",
         "serde_derive",
         "std",
+        "alloc",
     ],
     deps = [
         ":serde_core",
@@ -1034,6 +1329,7 @@ rust_crate(
         "result",
         "std",
         "default",
+        "alloc",
     ],
     deps = [
         ":serde_derive",
@@ -1082,6 +1378,17 @@ rust_crate(
     ],
     deps = [
         ":serde",
+    ],
+)
+
+rust_crate(
+    name = "shlex",
+    crate = "shlex",
+    version = "1.3.0",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
     ],
 )
 
@@ -1142,6 +1449,7 @@ rust_crate(
         "proc-macro",
         "extra-traits",
         "visit-mut",
+        "visit",
     ],
     deps = [
         ":quote",
@@ -1171,6 +1479,17 @@ rust_crate(
         ":getrandom",
         ":once_cell",
         ":rustix",
+    ],
+)
+
+rust_crate(
+    name = "tinytemplate",
+    crate = "tinytemplate",
+    version = "1.2.1",
+    edition = "2021",
+    deps = [
+        ":serde",
+        ":serde_json",
     ],
 )
 
@@ -1461,6 +1780,13 @@ rust_crate(
 )
 
 rust_crate(
+    name = "walkdir",
+    crate = "walkdir",
+    version = "2.5.0",
+    edition = "2021",
+)
+
+rust_crate(
     name = "want",
     crate = "want",
     version = "0.3.1",
@@ -1485,6 +1811,70 @@ rust_crate(
     edition = "2021",
     deps = [
         ":wit_bindgen",
+    ],
+)
+
+rust_crate(
+    name = "wasm_bindgen",
+    crate = "wasm-bindgen",
+    version = "0.2.106",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
+    ],
+    deps = [
+        ":once_cell",
+    ],
+)
+
+rust_crate(
+    name = "wasm_bindgen_macro",
+    crate = "wasm-bindgen-macro",
+    version = "0.2.106",
+    edition = "2021",
+    deps = [
+        ":quote",
+    ],
+)
+
+rust_crate(
+    name = "wasm_bindgen_macro_support",
+    crate = "wasm-bindgen-macro-support",
+    version = "0.2.106",
+    edition = "2021",
+    deps = [
+        ":bumpalo",
+        ":quote",
+        ":syn",
+    ],
+)
+
+rust_crate(
+    name = "wasm_bindgen_shared",
+    crate = "wasm-bindgen-shared",
+    version = "0.2.106",
+    edition = "2021",
+)
+
+rust_crate(
+    name = "web_sys",
+    crate = "web-sys",
+    version = "0.3.83",
+    edition = "2021",
+    features = [
+        "CanvasRenderingContext2d",
+        "Document",
+        "DomRect",
+        "DomRectReadOnly",
+        "Element",
+        "EventTarget",
+        "HtmlCanvasElement",
+        "HtmlElement",
+        "Node",
+        "Window",
+        "default",
+        "std",
     ],
 )
 
@@ -1517,6 +1907,8 @@ rust_crate(
     edition = "2021",
     features = [
         "simd",
+        "derive",
+        "zerocopy-derive",
     ],
     deps = [
         ":zerocopy_derive",
@@ -1541,6 +1933,8 @@ rust_crate(
     version = "1.0.2",
     edition = "2021",
 )
+
+
 
 
 
