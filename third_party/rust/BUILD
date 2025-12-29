@@ -426,6 +426,10 @@ rust_crate(
         "default",
         "limit_128",
     ],
+    build_root = "build.rs",
+    compile_env = {
+        "CRUNCHY_LIB_SUFFIX": "/lib.rs",
+    },
 )
 
 rust_crate(
@@ -957,6 +961,9 @@ rust_crate(
     crate = "pin-project",
     version = "1.1.10",
     edition = "2021",
+    deps = [
+        ":pin_project_internal",
+    ],
 )
 
 rust_crate(
@@ -1009,6 +1016,9 @@ rust_crate(
     crate = "plotters-svg",
     version = "0.3.7",
     edition = "2021",
+    deps = [
+        ":plotters_backend",
+    ],
 )
 
 rust_crate(
