@@ -550,6 +550,13 @@ rust_crate(
     features = [
         "alloc",
     ],
+    deps = [
+        ":futures_core",
+        ":futures_sink",
+        ":futures_task",
+        ":pin_project_lite",
+        ":pin_utils",
+    ],
 )
 
 rust_crate(
@@ -686,13 +693,18 @@ rust_crate(
     deps = [
         ":atomic_waker",
         ":bytes",
+        ":futures_channel",
         ":futures_core",
         ":futures_sink",
+        ":futures_util",
         ":h2",
         ":http",
+        ":http_body",
         ":httparse",
         ":httpdate",
         ":itoa",
+        ":pin_project_lite",
+        ":pin_utils",
         ":smallvec",
         ":tokio",
         ":tokio_util",
