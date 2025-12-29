@@ -1,11 +1,3 @@
-subinclude("//build_defs:rust")
-
-rust_toolchain(
-    name = "toolchain",
-    version = "1.92.0",
-    visibility = ["PUBLIC"],
-)
-
 rust_crate(
     name = "aho_corasick",
     crate = "aho-corasick",
@@ -16,67 +8,6 @@ rust_crate(
     ],
     deps = [
         ":memchr",
-    ],
-)
-
-rust_crate(
-    name = "anstream",
-    crate = "anstream",
-    version = "0.6.21",
-    edition = "2021",
-    features = [
-        "auto",
-        "default",
-        "wincon",
-    ],
-    deps = [
-        ":anstyle",
-        ":colorchoice",
-        ":is_terminal_polyfill",
-        ":utf8parse",
-    ],
-)
-
-rust_crate(
-    name = "anstyle",
-    crate = "anstyle",
-    version = "1.0.13",
-    edition = "2021",
-    features = [
-        "default",
-        "std",
-    ],
-)
-
-rust_crate(
-    name = "anstyle_parse",
-    crate = "anstyle-parse",
-    version = "0.2.7",
-    edition = "2021",
-    features = [
-        "default",
-        "utf8",
-    ],
-    deps = [
-        ":utf8parse",
-    ],
-)
-
-rust_crate(
-    name = "anstyle_query",
-    crate = "anstyle-query",
-    version = "1.1.5",
-    edition = "2021",
-)
-
-rust_crate(
-    name = "anstyle_wincon",
-    crate = "anstyle-wincon",
-    version = "3.0.11",
-    edition = "2021",
-    deps = [
-        ":anstyle",
-        ":once_cell_polyfill",
     ],
 )
 
@@ -176,77 +107,6 @@ rust_crate(
 rust_crate(
     name = "cfg_if",
     crate = "cfg-if",
-    version = "1.0.4",
-    edition = "2021",
-)
-
-rust_crate(
-    name = "clap",
-    crate = "clap",
-    version = "4.5.53",
-    edition = "2021",
-    features = [
-        "color",
-        "default",
-        "derive",
-        "error-context",
-        "help",
-        "std",
-        "suggestions",
-        "usage",
-    ],
-    deps = [
-        ":clap_builder",
-        ":clap_derive",
-    ],
-)
-
-rust_crate(
-    name = "clap_builder",
-    crate = "clap_builder",
-    version = "4.5.53",
-    edition = "2021",
-    features = [
-        "color",
-        "error-context",
-        "help",
-        "std",
-        "suggestions",
-        "usage",
-    ],
-    deps = [
-        ":anstream",
-        ":anstyle",
-        ":clap_lex",
-        ":strsim",
-    ],
-)
-
-rust_crate(
-    name = "clap_derive",
-    crate = "clap_derive",
-    version = "4.5.49",
-    edition = "2021",
-    features = [
-        "default",
-    ],
-    deps = [
-        ":heck",
-        ":quote",
-        ":syn",
-    ],
-)
-
-rust_crate(
-    name = "clap_lex",
-    crate = "clap_lex",
-    version = "0.7.6",
-    edition = "2021",
-)
-
-rust_crate(
-    name = "colorchoice",
-    crate = "colorchoice",
     version = "1.0.4",
     edition = "2021",
 )
@@ -373,13 +233,8 @@ rust_crate(
     crate = "getrandom",
     version = "0.3.4",
     edition = "2021",
-    features = [
-        "std",
-    ],
     deps = [
-        ":cfg_if",
         ":libc",
-        ":r_efi",
         ":wasip2",
     ],
 )
@@ -551,16 +406,6 @@ rust_crate(
 )
 
 rust_crate(
-    name = "is_terminal_polyfill",
-    crate = "is_terminal_polyfill",
-    version = "1.70.2",
-    edition = "2021",
-    features = [
-        "default",
-    ],
-)
-
-rust_crate(
     name = "itertools",
     crate = "itertools",
     version = "0.14.0",
@@ -632,8 +477,8 @@ rust_crate(
     edition = "2021",
     features = [
         "alloc",
-        "std",
         "default",
+        "std",
     ],
 )
 
@@ -677,16 +522,6 @@ rust_crate(
         "default",
         "race",
         "std",
-    ],
-)
-
-rust_crate(
-    name = "once_cell_polyfill",
-    crate = "once_cell_polyfill",
-    version = "1.70.2",
-    edition = "2021",
-    features = [
-        "default",
     ],
 )
 
@@ -746,20 +581,6 @@ rust_crate(
 )
 
 rust_crate(
-    name = "ppv_lite86",
-    crate = "ppv-lite86",
-    version = "0.2.21",
-    edition = "2021",
-    features = [
-        "simd",
-        "std",
-    ],
-    deps = [
-        ":zerocopy",
-    ],
-)
-
-rust_crate(
     name = "prettyplease",
     crate = "prettyplease",
     version = "0.2.37",
@@ -778,8 +599,20 @@ rust_crate(
         "default",
         "proc-macro",
     ],
+)
+
+rust_crate(
+    name = "prost",
+    crate = "prost",
+    version = "0.13.5",
+    edition = "2021",
+    features = [
+        "default",
+        "derive",
+        "std",
+    ],
     deps = [
-        ":unicode_ident",
+        ":bytes",
     ],
 )
 
@@ -789,7 +622,6 @@ rust_crate(
     version = "0.14.1",
     edition = "2021",
     features = [
-        "default",
         "derive",
         "std",
     ],
@@ -813,6 +645,19 @@ rust_crate(
         ":prost",
         ":regex",
         ":tempfile",
+    ],
+)
+
+rust_crate(
+    name = "prost_derive",
+    crate = "prost-derive",
+    version = "0.13.5",
+    edition = "2021",
+    deps = [
+        ":anyhow",
+        ":itertools",
+        ":quote",
+        ":syn",
     ],
 )
 
@@ -875,9 +720,6 @@ rust_crate(
         "default",
         "proc-macro",
     ],
-    deps = [
-        ":proc_macro2",
-    ],
 )
 
 rust_crate(
@@ -885,54 +727,6 @@ rust_crate(
     crate = "r-efi",
     version = "5.3.0",
     edition = "2021",
-)
-
-rust_crate(
-    name = "rand",
-    crate = "rand",
-    version = "0.9.2",
-    edition = "2021",
-    features = [
-        "alloc",
-        "default",
-        "os_rng",
-        "small_rng",
-        "std",
-        "std_rng",
-        "thread_rng",
-    ],
-    deps = [
-        ":rand_chacha",
-        ":rand_core",
-    ],
-)
-
-rust_crate(
-    name = "rand_chacha",
-    crate = "rand_chacha",
-    version = "0.9.0",
-    edition = "2021",
-    features = [
-        "std",
-    ],
-    deps = [
-        ":ppv_lite86",
-        ":rand_core",
-    ],
-)
-
-rust_crate(
-    name = "rand_core",
-    crate = "rand_core",
-    version = "0.9.3",
-    edition = "2021",
-    features = [
-        "os_rng",
-        "std",
-    ],
-    deps = [
-        ":getrandom",
-    ],
 )
 
 rust_crate(
@@ -969,18 +763,6 @@ rust_crate(
 )
 
 rust_crate(
-    name = "regex_lite",
-    crate = "regex-lite",
-    version = "0.1.8",
-    edition = "2021",
-    features = [
-        "default",
-        "std",
-        "string",
-    ],
-)
-
-rust_crate(
     name = "regex_syntax",
     crate = "regex-syntax",
     version = "0.8.8",
@@ -1009,31 +791,14 @@ rust_crate(
 )
 
 rust_crate(
-    name = "serde",
-    crate = "serde",
-    version = "1.0.228",
-    edition = "2021",
-    features = [
-        "default",
-        "derive",
-        "serde_derive",
-        "std",
-    ],
-    deps = [
-        ":serde_core",
-        ":serde_derive",
-    ],
-)
-
-rust_crate(
     name = "serde_core",
     crate = "serde_core",
     version = "1.0.228",
     edition = "2021",
     features = [
+        "default",
         "result",
         "std",
-        "default",
     ],
     deps = [
         ":serde_derive",
@@ -1051,37 +816,6 @@ rust_crate(
     deps = [
         ":quote",
         ":syn",
-    ],
-)
-
-rust_crate(
-    name = "serde_json",
-    crate = "serde_json",
-    version = "1.0.148",
-    edition = "2021",
-    features = [
-        "default",
-        "std",
-    ],
-    deps = [
-        ":itoa",
-        ":memchr",
-        ":serde",
-        ":serde_core",
-        ":zmij",
-    ],
-)
-
-rust_crate(
-    name = "serde_spanned",
-    crate = "serde_spanned",
-    version = "0.6.9",
-    edition = "2021",
-    features = [
-        "serde",
-    ],
-    deps = [
-        ":serde",
     ],
 )
 
@@ -1110,6 +844,19 @@ rust_crate(
 rust_crate(
     name = "socket2",
     crate = "socket2",
+    version = "0.5.10",
+    edition = "2021",
+    features = [
+        "all",
+    ],
+    deps = [
+        ":libc",
+    ],
+)
+
+rust_crate(
+    name = "socket2",
+    crate = "socket2",
     version = "0.6.1",
     edition = "2021",
     features = [
@@ -1121,13 +868,6 @@ rust_crate(
 )
 
 rust_crate(
-    name = "strsim",
-    crate = "strsim",
-    version = "0.11.1",
-    edition = "2021",
-)
-
-rust_crate(
     name = "syn",
     crate = "syn",
     version = "2.0.111",
@@ -1136,17 +876,15 @@ rust_crate(
         "clone-impls",
         "default",
         "derive",
+        "extra-traits",
         "full",
         "parsing",
         "printing",
         "proc-macro",
-        "extra-traits",
         "visit-mut",
     ],
     deps = [
         ":quote",
-        ":proc_macro2",
-        ":unicode_ident",
     ],
 )
 
@@ -1239,69 +977,6 @@ rust_crate(
     deps = [
         ":bytes",
         ":tokio",
-    ],
-)
-
-rust_crate(
-    name = "toml",
-    crate = "toml",
-    version = "0.8.23",
-    edition = "2021",
-    features = [
-        "default",
-        "display",
-        "parse",
-    ],
-    deps = [
-        ":serde",
-        ":serde_spanned",
-        ":toml_datetime",
-        ":toml_edit",
-    ],
-)
-
-rust_crate(
-    name = "toml_datetime",
-    crate = "toml_datetime",
-    version = "0.6.11",
-    edition = "2021",
-    features = [
-        "serde",
-    ],
-    deps = [
-        ":serde",
-    ],
-)
-
-rust_crate(
-    name = "toml_edit",
-    crate = "toml_edit",
-    version = "0.22.27",
-    edition = "2021",
-    features = [
-        "display",
-        "parse",
-        "serde",
-    ],
-    deps = [
-        ":indexmap",
-        ":serde",
-        ":serde_spanned",
-        ":toml_datetime",
-        ":toml_write",
-        ":winnow",
-    ],
-)
-
-rust_crate(
-    name = "toml_write",
-    crate = "toml_write",
-    version = "0.1.2",
-    edition = "2021",
-    features = [
-        "alloc",
-        "default",
-        "std",
     ],
 )
 
@@ -1451,16 +1126,6 @@ rust_crate(
 )
 
 rust_crate(
-    name = "utf8parse",
-    crate = "utf8parse",
-    version = "0.2.2",
-    edition = "2021",
-    features = [
-        "default",
-    ],
-)
-
-rust_crate(
     name = "want",
     crate = "want",
     version = "0.3.1",
@@ -1483,24 +1148,6 @@ rust_crate(
     crate = "wasip2",
     version = "1.0.1+wasi-0.2.4",
     edition = "2021",
-    deps = [
-        ":wit_bindgen",
-    ],
-)
-
-rust_crate(
-    name = "winnow",
-    crate = "winnow",
-    version = "0.7.14",
-    edition = "2021",
-    features = [
-        "alloc",
-        "default",
-        "std",
-    ],
-    deps = [
-        ":memchr",
-    ],
 )
 
 rust_crate(
@@ -1509,44 +1156,4 @@ rust_crate(
     version = "0.46.0",
     edition = "2021",
 )
-
-rust_crate(
-    name = "zerocopy",
-    crate = "zerocopy",
-    version = "0.8.31",
-    edition = "2021",
-    features = [
-        "simd",
-    ],
-    deps = [
-        ":zerocopy_derive",
-    ],
-)
-
-rust_crate(
-    name = "zerocopy_derive",
-    crate = "zerocopy-derive",
-    version = "0.8.31",
-    edition = "2021",
-    deps = [
-        ":proc_macro2",
-        ":quote",
-        ":syn",
-    ],
-)
-
-rust_crate(
-    name = "zmij",
-    crate = "zmij",
-    version = "1.0.2",
-    edition = "2021",
-)
-
-
-
-
-
-
-
-
 

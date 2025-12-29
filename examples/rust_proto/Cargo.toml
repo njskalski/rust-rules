@@ -1,0 +1,16 @@
+[package]
+name = "rust_proto_deps"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "bin/src/main.rs"
+
+[dependencies]
+tokio = { version = "1" }
+tonic = "0.13"
+prost = "0.13"
+async-trait = "0.1"
+protoc-gen-prost = "0.5"
+protoc-gen-tonic = "0.5"
+
