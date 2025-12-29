@@ -979,8 +979,14 @@ fn merge_crates(
         }
     }
 
-    // Sort by crate name for consistent output
-    result.sort_by(|a, b| a.crate_name.cmp(&b.crate_name));
+    // Sort by crate name, then by rule name for consistent output
+    // This ensures forks (same crate_name, different name) have deterministic order
+    result.sort_by(|a, b| {
+        match a.crate_name.cmp(&b.crate_name) {
+            std::cmp::Ordering::Equal => a.name.cmp(&b.name),
+            other => other,
+        }
+    });
 
     // Detect and warn about forks (multiple crates with same crate_name but different rule names)
     let mut crate_versions: HashMap<String, Vec<&CrateDefinition>> = HashMap::new();
