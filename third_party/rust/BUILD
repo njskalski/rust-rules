@@ -653,7 +653,7 @@ rust_crate(
     name = "httparse",
     crate = "httparse",
     version = "1.10.1",
-    edition = "2021",
+    edition = "2018",
     features = [
         "default",
         "std",
@@ -1735,6 +1735,11 @@ rust_crate(
         "std",
         "tracing-attributes",
     ],
+    deps = [
+        ":pin_project_lite",
+        ":tracing_attributes",
+        ":tracing_core",
+    ],
 )
 
 rust_crate(
@@ -1742,7 +1747,9 @@ rust_crate(
     crate = "tracing-attributes",
     version = "0.1.31",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
