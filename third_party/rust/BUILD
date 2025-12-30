@@ -90,6 +90,9 @@ rust_crate(
     crate = "anstyle-query",
     version = "1.1.5",
     edition = "2021",
+    deps = [
+        ":windows_sys",
+    ],
 )
 
 rust_crate(
@@ -100,6 +103,7 @@ rust_crate(
     deps = [
         ":anstyle",
         ":once_cell_polyfill",
+        ":windows_sys",
     ],
 )
 
@@ -120,6 +124,7 @@ rust_crate(
     version = "0.1.89",
     edition = "2021",
     deps = [
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
@@ -138,15 +143,31 @@ rust_crate(
     version = "0.8.8",
     edition = "2021",
     deps = [
+        ":axum_core",
         ":bytes",
+        ":form_urlencoded",
+        ":futures_util",
         ":http",
+        ":http_body",
+        ":http_body_util",
+        ":hyper",
+        ":hyper_util",
         ":itoa",
         ":matchit",
         ":memchr",
         ":mime",
+        ":percent_encoding",
+        ":pin_project_lite",
         ":serde_core",
+        ":serde_json",
+        ":serde_path_to_error",
+        ":serde_urlencoded",
         ":sync_wrapper",
+        ":tokio",
         ":tower",
+        ":tower_layer",
+        ":tower_service",
+        ":tracing",
     ],
 )
 
@@ -157,9 +178,16 @@ rust_crate(
     edition = "2021",
     deps = [
         ":bytes",
+        ":futures_core",
         ":http",
+        ":http_body",
+        ":http_body_util",
         ":mime",
+        ":pin_project_lite",
         ":sync_wrapper",
+        ":tower_layer",
+        ":tower_service",
+        ":tracing",
     ],
 )
 
@@ -241,6 +269,8 @@ rust_crate(
         "std",
     ],
     deps = [
+        ":ciborium_io",
+        ":ciborium_ll",
         ":serde",
     ],
 )
@@ -262,6 +292,7 @@ rust_crate(
     version = "0.2.2",
     edition = "2021",
     deps = [
+        ":ciborium_io",
         ":half",
     ],
 )
@@ -283,7 +314,6 @@ rust_crate(
     ],
     deps = [
         ":clap_builder",
-        ":clap_derive",
     ],
 )
 
@@ -318,6 +348,7 @@ rust_crate(
     ],
     deps = [
         ":heck",
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
@@ -354,7 +385,9 @@ rust_crate(
         ":cast",
         ":ciborium",
         ":clap",
+        ":criterion_plot",
         ":itertools",
+        ":num_traits",
         ":oorandom",
         ":page_size",
         ":plotters",
@@ -459,6 +492,7 @@ rust_crate(
     ],
     deps = [
         ":libc",
+        ":windows_sys",
     ],
 )
 
@@ -511,6 +545,7 @@ rust_crate(
     ],
     deps = [
         ":futures_core",
+        ":futures_sink",
     ],
 )
 
@@ -557,11 +592,16 @@ rust_crate(
         "alloc",
     ],
     deps = [
+        ":futures_channel",
         ":futures_core",
+        ":futures_io",
+        ":futures_macro",
         ":futures_sink",
         ":futures_task",
+        ":memchr",
         ":pin_project_lite",
         ":pin_utils",
+        ":slab",
     ],
 )
 
@@ -607,6 +647,7 @@ rust_crate(
     version = "2.7.1",
     edition = "2021",
     deps = [
+        ":cfg_if",
         ":crunchy",
         ":zerocopy",
     ],
@@ -617,6 +658,11 @@ rust_crate(
     crate = "hashbrown",
     version = "0.16.1",
     edition = "2021",
+    deps = [
+        ":allocator_api2",
+        ":equivalent",
+        ":foldhash",
+    ],
 )
 
 rust_crate(
@@ -662,7 +708,10 @@ rust_crate(
     ],
     deps = [
         ":bytes",
+        ":futures_core",
         ":http",
+        ":http_body",
+        ":pin_project_lite",
     ],
 )
 
@@ -701,8 +750,6 @@ rust_crate(
         ":bytes",
         ":futures_channel",
         ":futures_core",
-        ":futures_sink",
-        ":futures_util",
         ":h2",
         ":http",
         ":http_body",
@@ -713,7 +760,6 @@ rust_crate(
         ":pin_utils",
         ":smallvec",
         ":tokio",
-        ":tokio_util",
         ":want",
     ],
 )
@@ -725,7 +771,10 @@ rust_crate(
     edition = "2021",
     deps = [
         ":hyper",
+        ":hyper_util",
+        ":pin_project_lite",
         ":tokio",
+        ":tower_service",
     ],
 )
 
@@ -747,11 +796,17 @@ rust_crate(
     ],
     deps = [
         ":bytes",
+        ":futures_channel",
+        ":futures_core",
+        ":futures_util",
         ":http",
+        ":http_body",
         ":hyper",
         ":libc",
+        ":pin_project_lite",
         ":socket2",
         ":tokio",
+        ":tower_service",
         ":tracing",
     ],
 )
@@ -768,6 +823,8 @@ rust_crate(
     deps = [
         ":equivalent",
         ":hashbrown",
+        ":serde",
+        ":serde_core",
     ],
 )
 
@@ -813,6 +870,7 @@ rust_crate(
     ],
     deps = [
         ":once_cell",
+        ":wasm_bindgen",
     ],
 )
 
@@ -890,7 +948,9 @@ rust_crate(
     ],
     deps = [
         ":libc",
+        ":log",
         ":wasi",
+        ":windows_sys",
     ],
 )
 
@@ -899,6 +959,9 @@ rust_crate(
     crate = "multimap",
     version = "0.10.1",
     edition = "2021",
+    deps = [
+        ":serde",
+    ],
 )
 
 rust_crate(
@@ -909,6 +972,9 @@ rust_crate(
     features = [
         "default",
         "std",
+    ],
+    deps = [
+        ":autocfg",
     ],
 )
 
@@ -949,6 +1015,7 @@ rust_crate(
     edition = "2021",
     deps = [
         ":libc",
+        ":winapi",
     ],
 )
 
@@ -991,6 +1058,7 @@ rust_crate(
     version = "1.1.10",
     edition = "2021",
     deps = [
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
@@ -1022,9 +1090,18 @@ rust_crate(
         "svg_backend",
     ],
     deps = [
+        ":chrono",
+        ":font_kit",
+        ":image",
+        ":lazy_static",
         ":num_traits",
+        ":pathfinder_geometry",
         ":plotters_backend",
+        ":plotters_bitmap",
         ":plotters_svg",
+        ":ttf_parser",
+        ":wasm_bindgen",
+        ":web_sys",
     ],
 )
 
@@ -1065,6 +1142,7 @@ rust_crate(
     version = "0.2.37",
     edition = "2021",
     deps = [
+        ":proc_macro2",
         ":syn",
     ],
 )
@@ -1111,8 +1189,11 @@ rust_crate(
         ":multimap",
         ":once_cell",
         ":petgraph",
+        ":prettyplease",
         ":prost",
+        ":prost_types",
         ":regex",
+        ":syn",
         ":tempfile",
     ],
 )
@@ -1125,6 +1206,7 @@ rust_crate(
     deps = [
         ":anyhow",
         ":itertools",
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
@@ -1148,6 +1230,8 @@ rust_crate(
     deps = [
         ":once_cell",
         ":prost",
+        ":prost_build",
+        ":prost_types",
         ":regex",
     ],
 )
@@ -1160,10 +1244,15 @@ rust_crate(
     deps = [
         ":heck",
         ":prettyplease",
+        ":proc_macro2",
         ":prost",
+        ":prost_build",
+        ":prost_types",
+        ":protoc_gen_prost",
         ":quote",
         ":regex",
         ":syn",
+        ":tonic_build",
     ],
 )
 
@@ -1243,6 +1332,7 @@ rust_crate(
     edition = "2021",
     deps = [
         ":either",
+        ":rayon_core",
     ],
 )
 
@@ -1267,7 +1357,10 @@ rust_crate(
         "unicode-bool",
     ],
     deps = [
+        ":aho_corasick",
         ":memchr",
+        ":regex_automata",
+        ":regex_syntax",
     ],
 )
 
@@ -1286,7 +1379,9 @@ rust_crate(
         "unicode-bool",
     ],
     deps = [
+        ":aho_corasick",
         ":memchr",
+        ":regex_syntax",
     ],
 )
 
@@ -1326,7 +1421,10 @@ rust_crate(
     ],
     deps = [
         ":bitflags",
+        ":libc_errno",
         ":libc",
+        ":linux_raw_sys",
+        ":windows_sys",
     ],
 )
 
@@ -1335,6 +1433,7 @@ rust_crate(
     crate = "rustversion",
     version = "1.0.22",
     edition = "2021",
+    crate_type = "proc-macro",
     build_root = "build/build.rs",
 )
 
@@ -1343,6 +1442,9 @@ rust_crate(
     crate = "same-file",
     version = "1.0.6",
     edition = "2021",
+    deps = [
+        ":winapi_util",
+    ],
 )
 
 rust_crate(
@@ -1388,6 +1490,7 @@ rust_crate(
         "default",
     ],
     deps = [
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
@@ -1467,6 +1570,7 @@ rust_crate(
     ],
     deps = [
         ":libc",
+        ":windows_sys",
     ],
 )
 
@@ -1522,6 +1626,7 @@ rust_crate(
         ":getrandom",
         ":once_cell",
         ":rustix",
+        ":windows_sys",
     ],
 )
 
@@ -1563,6 +1668,7 @@ rust_crate(
         ":pin_project_lite",
         ":socket2",
         ":tokio_macros",
+        ":windows_sys",
     ],
 )
 
@@ -1588,6 +1694,8 @@ rust_crate(
         "net",
     ],
     deps = [
+        ":futures_core",
+        ":pin_project_lite",
         ":tokio",
     ],
 )
@@ -1689,16 +1797,26 @@ rust_crate(
         "transport",
     ],
     deps = [
+        ":async_trait",
         ":axum",
         ":base64",
         ":bytes",
         ":h2",
         ":http",
+        ":http_body",
+        ":http_body_util",
         ":hyper",
+        ":hyper_timeout",
+        ":hyper_util",
+        ":percent_encoding",
+        ":pin_project",
         ":prost",
         ":socket2",
         ":tokio",
+        ":tokio_stream",
         ":tower",
+        ":tower_layer",
+        ":tower_service",
         ":tracing",
     ],
 )
@@ -1714,6 +1832,7 @@ rust_crate(
     ],
     deps = [
         ":prettyplease",
+        ":proc_macro2",
         ":quote",
         ":syn",
     ],
@@ -1745,10 +1864,16 @@ rust_crate(
         "util",
     ],
     deps = [
+        ":futures_core",
+        ":futures_util",
         ":indexmap",
+        ":pin_project_lite",
         ":slab",
         ":sync_wrapper",
         ":tokio",
+        ":tokio_util",
+        ":tower_layer",
+        ":tower_service",
         ":tracing",
     ],
 )
@@ -1779,6 +1904,7 @@ rust_crate(
         "tracing-attributes",
     ],
     deps = [
+        ":log",
         ":pin_project_lite",
         ":tracing_attributes",
         ":tracing_core",
@@ -1809,6 +1935,7 @@ rust_crate(
     ],
     deps = [
         ":once_cell",
+        ":valuable",
     ],
 )
 
@@ -1841,7 +1968,10 @@ rust_crate(
     crate = "walkdir",
     version = "2.5.0",
     edition = "2021",
-    deps = [":same_file"],
+    deps = [
+        ":same_file",
+        ":winapi_util",
+    ],
 )
 
 rust_crate(
@@ -1885,7 +2015,11 @@ rust_crate(
         "std",
     ],
     deps = [
+        ":cfg_if",
         ":once_cell",
+        ":rustversion_compat",
+        ":wasm_bindgen_macro",
+        ":wasm_bindgen_shared",
     ],
 )
 
@@ -1896,6 +2030,7 @@ rust_crate(
     edition = "2021",
     deps = [
         ":quote",
+        ":wasm_bindgen_macro_support",
     ],
 )
 
@@ -1906,8 +2041,10 @@ rust_crate(
     edition = "2021",
     deps = [
         ":bumpalo",
+        ":proc_macro2",
         ":quote",
         ":syn",
+        ":wasm_bindgen_shared",
     ],
 )
 
@@ -1938,6 +2075,10 @@ rust_crate(
         "default",
         "std",
     ],
+    deps = [
+        ":js_sys",
+        ":wasm_bindgen",
+    ],
 )
 
 rust_crate(
@@ -1960,6 +2101,12 @@ rust_crate(
     crate = "wit-bindgen",
     version = "0.46.0",
     edition = "2021",
+    deps = [
+        ":bitflags",
+        ":futures",
+        ":once_cell",
+        ":wit_bindgen_rust_macro",
+    ],
 )
 
 rust_crate(
@@ -1995,6 +2142,8 @@ rust_crate(
     version = "1.0.2",
     edition = "2021",
 )
+
+
 
 
 

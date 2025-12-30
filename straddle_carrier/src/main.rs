@@ -101,6 +101,21 @@ enum Commands {
         #[arg(long, value_enum, default_value = "compatible")]
         mode: VerifyMode,
     },
+
+    /// Wire dependencies in a BUILD file using cargo metadata
+    WireDependencies {
+        /// Path to the BUILD file to update
+        #[arg(short, long, value_name = "FILE")]
+        build_file: PathBuf,
+
+        /// Don't create a backup of the old file
+        #[arg(long, default_value = "false")]
+        no_backup: bool,
+
+        /// Output file (defaults to build_file for in-place update)
+        #[arg(short, long, value_name = "FILE")]
+        output: Option<PathBuf>,
+    },
 }
 
 /// Merge mode for combining crate definitions
@@ -203,6 +218,9 @@ fn main() -> Result<()> {
         }
         Some(Commands::Verify { cargo_toml, build_file, mode }) => {
             run_verify(&cargo_toml, &build_file, mode)
+        }
+        Some(Commands::WireDependencies { build_file, no_backup, output }) => {
+            run_wire_dependencies(&build_file, no_backup, output.as_ref())
         }
         None => {
             // Legacy mode: use top-level arguments
@@ -762,6 +780,151 @@ fn run_verify(
         eprintln!("\n{} error(s), {} warning(s)", errors.len(), warnings.len());
         std::process::exit(1);
     }
+}
+
+fn run_wire_dependencies(
+    build_file: &PathBuf,
+    no_backup: bool,
+    output: Option<&PathBuf>,
+) -> Result<()> {
+    eprintln!("Wiring dependencies in {:?} using cargo metadata", build_file);
+    
+    // Read the BUILD file
+    let build_content = fs::read_to_string(build_file)
+        .with_context(|| format!("Failed to read BUILD file at {:?}", build_file))?;
+    
+    // Parse BUILD file with full structure
+    let build_file_content = parse_build_file_full(&build_content)?;
+    let mut crates = build_file_content.crates;
+    
+    // Create a temporary Cargo.toml for all crates
+    let temp_dir = std::env::temp_dir().join(format!("straddle_carrier_{}", std::process::id()));
+    fs::create_dir_all(&temp_dir)
+        .with_context(|| format!("Failed to create temp directory {:?}", temp_dir))?;
+    
+    let temp_cargo_toml = temp_dir.join("Cargo.toml");
+    
+    // Generate a Cargo.toml with all crates as dependencies
+    let mut cargo_toml_content = String::from("[package]\nname = \"temp_dep_resolver\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[lib]\npath = \"lib.rs\"\n\n[dependencies]\n");
+    
+    for crate_def in &crates {
+        cargo_toml_content.push_str(&format!("{} = \"={}\"\n", crate_def.crate_name, crate_def.version));
+    }
+    
+    // Create a dummy lib.rs file
+    let temp_lib_rs = temp_dir.join("lib.rs");
+    fs::write(&temp_lib_rs, "// Dummy library for dependency resolution\n")
+        .with_context(|| format!("Failed to write temp lib.rs to {:?}", temp_lib_rs))?;
+    
+    fs::write(&temp_cargo_toml, &cargo_toml_content)
+        .with_context(|| format!("Failed to write temp Cargo.toml to {:?}", temp_cargo_toml))?;
+    
+    eprintln!("Resolving dependencies using cargo metadata...");
+    
+    // Get cargo metadata to resolve dependencies
+    let resolved_packages = match get_cargo_metadata(&temp_cargo_toml) {
+        Ok(packages) => packages,
+        Err(e) => {
+            // Clean up temp directory
+            let _ = fs::remove_dir_all(&temp_dir);
+            return Err(e);
+        }
+    };
+    
+    // Clean up temp directory
+    fs::remove_dir_all(&temp_dir)
+        .with_context(|| format!("Failed to remove temp directory {:?}", temp_dir))?;
+    
+    // Build a map of crate name + version -> dependencies
+    let mut dep_map: HashMap<(String, String), Vec<String>> = HashMap::new();
+    for pkg in &resolved_packages {
+        if !pkg.is_local {
+            dep_map.insert(
+                (pkg.name.clone(), pkg.version.clone()),
+                pkg.dependencies.clone()
+            );
+        }
+    }
+    
+    eprintln!("Resolved {} crate dependency chains", dep_map.len());
+    
+    // Update dependencies for each crate
+    let mut updated_count = 0;
+    let mut skipped_pinned = 0;
+    
+    for crate_def in &mut crates {
+        if crate_def.pinned {
+            skipped_pinned += 1;
+            eprintln!("Skipping pinned crate: {}", crate_def.name);
+            continue;
+        }
+        
+        if let Some(resolved_deps) = dep_map.get(&(crate_def.crate_name.clone(), crate_def.version.clone())) {
+            // Convert dependency names to rule references
+            let new_deps: Vec<String> = resolved_deps
+                .iter()
+                .map(|dep| format!(":{}", crate_name_to_rule_name(dep)))
+                .collect();
+            
+            // Check if deps changed
+            let old_deps_set: HashSet<&String> = crate_def.deps.iter().collect();
+            let new_deps_set: HashSet<&String> = new_deps.iter().collect();
+            
+            if old_deps_set != new_deps_set {
+                eprintln!("Updating deps for {}: {} -> {} dependencies", 
+                    crate_def.name, crate_def.deps.len(), new_deps.len());
+                crate_def.deps = new_deps;
+                crate_def.modified = true;
+                updated_count += 1;
+            }
+        } else {
+            eprintln!("Warning: No resolved dependencies found for {} v{}", 
+                crate_def.crate_name, crate_def.version);
+        }
+    }
+    
+    eprintln!("\nUpdated {} crates, skipped {} pinned crates", updated_count, skipped_pinned);
+    
+    // Build the output content preserving structure
+    let mut output_content = String::new();
+    
+    // Add header
+    output_content.push_str(&build_file_content.header);
+    
+    // Add crates (preserving or regenerating as needed)
+    for crate_def in &crates {
+        if !crate_def.modified && !crate_def.raw_text.is_empty() {
+            // Use raw_text to preserve all original fields
+            output_content.push_str(&crate_def.raw_text);
+            output_content.push_str("\n\n");
+        } else {
+            // Generate fresh with updated deps
+            output_content.push_str(&generate_crate_block(crate_def));
+            output_content.push_str("\n");
+        }
+    }
+    
+    // Add trailer
+    output_content.push_str(&build_file_content.trailer);
+    
+    // Determine output path
+    let output_path = output.unwrap_or(build_file);
+    
+    // Create backup if needed
+    if !no_backup && output_path == build_file {
+        let backup_path = format!("{}.backup", build_file.display());
+        fs::write(&backup_path, &build_content)
+            .with_context(|| format!("Failed to create backup at {}", backup_path))?;
+        eprintln!("Created backup at {}", backup_path);
+    }
+    
+    // Write output
+    fs::write(output_path, &output_content)
+        .with_context(|| format!("Failed to write output to {:?}", output_path))?;
+    
+    eprintln!("Wrote wired BUILD file to {:?}", output_path);
+    
+    Ok(())
 }
 
 fn merge_crates(
