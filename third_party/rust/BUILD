@@ -316,6 +316,7 @@ rust_crate(
     ],
     deps = [
         ":clap_builder",
+        ":clap_derive",
     ],
 )
 
@@ -1647,7 +1648,7 @@ rust_crate(
     name = "tinytemplate",
     crate = "tinytemplate",
     version = "1.2.1",
-    edition = "2021",
+    edition = "2015",
     deps = [
         ":serde",
         ":serde_json",
@@ -2020,6 +2021,7 @@ rust_crate(
     crate = "wasm-bindgen-macro",
     version = "0.2.106",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
         ":quote",
         ":wasm_bindgen_macro_support",
