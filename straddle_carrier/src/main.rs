@@ -1189,6 +1189,20 @@ struct MetadataPackage {
     source: Option<String>,
     #[serde(default)]
     dependencies: Vec<MetadataDep>,
+    #[serde(default)]
+    edition: Option<String>,
+    #[serde(default)]
+    targets: Vec<MetadataTarget>,
+}
+
+#[derive(Debug, Deserialize)]
+struct MetadataTarget {
+    #[serde(default)]
+    kind: Vec<String>,
+    #[serde(default)]
+    crate_types: Vec<String>,
+    name: String,
+    src_path: String,
 }
 
 #[derive(Debug, Deserialize)]

@@ -24,7 +24,7 @@ sh_test(
 
 filegroup(
     name = "test_data",
-    srcs = glob(["test_data/**/*.build"]) + glob(["test_data/**/*.toml"]),
+    srcs = glob(["test_data/**/*.build"]) + glob(["test_data/**/*.toml"]) + glob(["test_data/**/*.rs"]),
 )
 
 sh_test(
@@ -101,5 +101,19 @@ sh_test(
         ":test_data",
     ],
     labels = ["merge"],
+)
+
+# Test automatic detection of edition, proc-macros, and build scripts
+sh_test(
+    name = "auto_detect_test",
+    src = "test_auto_detect.sh",
+    data = [
+        ":straddle_carrier_bin",
+        ":test_data",
+        "//third_party/rust:toolchain_cargo",
+        "//third_party/rust:toolchain_rustc",
+    ],
+    labels = ["generate", "auto-detect"],
+    sandbox = False,
 )
 
