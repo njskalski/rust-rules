@@ -147,6 +147,10 @@ struct ResolvedPackage {
     is_local: bool,
     features: Vec<String>,
     dependencies: Vec<String>,
+    edition: Option<String>,
+    is_proc_macro: bool,
+    has_build_script: bool,
+    build_script_path: Option<String>,
 }
 
 /// Represents the Cargo.toml [package] section
@@ -1268,12 +1272,37 @@ fn get_cargo_metadata(cargo_toml_path: &PathBuf) -> Result<Vec<ResolvedPackage>>
                 let is_local = pkg.source.is_none();
                 let deps: Vec<String> = node.deps.iter().map(|d| d.name.clone()).collect();
                 
+                // Detect proc-macro from targets
+                let is_proc_macro = pkg.targets.iter().any(|t| {
+                    t.crate_types.contains(&"proc-macro".to_string())
+                });
+                
+                // Detect build script from targets
+                let mut has_build_script = false;
+                let mut build_script_path: Option<String> = None;
+                for target in &pkg.targets {
+                    if target.kind.contains(&"custom-build".to_string()) {
+                        has_build_script = true;
+                        // Extract just the filename from src_path (e.g., "build.rs" from "/path/to/build.rs")
+                        if let Some(filename) = std::path::Path::new(&target.src_path).file_name() {
+                            if let Some(filename_str) = filename.to_str() {
+                                build_script_path = Some(filename_str.to_string());
+                            }
+                        }
+                        break;
+                    }
+                }
+                
                 resolved.push(ResolvedPackage {
                     name: pkg.name.clone(),
                     version: pkg.version.clone(),
                     is_local,
                     features: node.features.clone(),
                     dependencies: deps,
+                    edition: pkg.edition.clone(),
+                    is_proc_macro,
+                    has_build_script,
+                    build_script_path,
                 });
             }
         }
@@ -1426,14 +1455,19 @@ fn generate_build_files(packages: &[ResolvedPackage], cargo_toml: &CargoToml, pr
         let crate_name = &pkg.name;
         let version = &pkg.version;
 
-        // Determine edition (default to 2021 as a reasonable default)
-        let crate_edition = "2021";
+        // Use edition from metadata, default to 2021 if not available
+        let crate_edition = pkg.edition.as_ref().map(|e| e.as_str()).unwrap_or("2021");
 
         third_party_output.push_str("rust_crate(\n");
         third_party_output.push_str(&format!("    name = \"{}\",\n", rule_name));
         third_party_output.push_str(&format!("    crate = \"{}\",\n", crate_name));
         third_party_output.push_str(&format!("    version = \"{}\",\n", version));
         third_party_output.push_str(&format!("    edition = \"{}\",\n", crate_edition));
+        
+        // Add crate_type if it's a proc-macro
+        if pkg.is_proc_macro {
+            third_party_output.push_str("    crate_type = \"proc-macro\",\n");
+        }
 
         // Add features if any
         if !pkg.features.is_empty() {
@@ -1461,6 +1495,12 @@ fn generate_build_files(packages: &[ResolvedPackage], cargo_toml: &CargoToml, pr
                 }
                 third_party_output.push_str("    ],\n");
             }
+        }
+        
+        // Add build_root if it has a build script
+        if pkg.has_build_script {
+            let build_path = pkg.build_script_path.as_ref().map(|p| p.as_str()).unwrap_or("build.rs");
+            third_party_output.push_str(&format!("    build_root = \"{}\",\n", build_path));
         }
 
         third_party_output.push_str(")\n\n");
