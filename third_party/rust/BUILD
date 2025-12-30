@@ -91,7 +91,7 @@ rust_crate(
     version = "1.1.5",
     edition = "2021",
     deps = [
-        ":windows_sys",
+        
     ],
 )
 
@@ -103,7 +103,7 @@ rust_crate(
     deps = [
         ":anstyle",
         ":once_cell_polyfill",
-        ":windows_sys",
+        
     ],
 )
 
@@ -123,6 +123,7 @@ rust_crate(
     crate = "async-trait",
     version = "0.1.89",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
         ":proc_macro2",
         ":quote",
@@ -145,7 +146,7 @@ rust_crate(
     deps = [
         ":axum_core",
         ":bytes",
-        ":form_urlencoded",
+        
         ":futures_util",
         ":http",
         ":http_body",
@@ -160,8 +161,8 @@ rust_crate(
         ":pin_project_lite",
         ":serde_core",
         ":serde_json",
-        ":serde_path_to_error",
-        ":serde_urlencoded",
+        
+        
         ":sync_wrapper",
         ":tokio",
         ":tower",
@@ -343,6 +344,7 @@ rust_crate(
     crate = "clap_derive",
     version = "4.5.49",
     edition = "2021",
+    crate_type = "proc-macro",
     features = [
         "default",
     ],
@@ -492,7 +494,7 @@ rust_crate(
     ],
     deps = [
         ":libc",
-        ":windows_sys",
+        
     ],
 )
 
@@ -594,8 +596,8 @@ rust_crate(
     deps = [
         ":futures_channel",
         ":futures_core",
-        ":futures_io",
-        ":futures_macro",
+        
+        
         ":futures_sink",
         ":futures_task",
         ":memchr",
@@ -617,7 +619,6 @@ rust_crate(
         ":cfg_if",
         ":libc",
         ":r_efi",
-        ":wasip2",
     ],
 )
 
@@ -659,9 +660,9 @@ rust_crate(
     version = "0.16.1",
     edition = "2021",
     deps = [
-        ":allocator_api2",
+        
         ":equivalent",
-        ":foldhash",
+        
     ],
 )
 
@@ -949,8 +950,7 @@ rust_crate(
     deps = [
         ":libc",
         ":log",
-        ":wasi",
-        ":windows_sys",
+        
     ],
 )
 
@@ -974,7 +974,7 @@ rust_crate(
         "std",
     ],
     deps = [
-        ":autocfg",
+        
     ],
 )
 
@@ -1015,7 +1015,7 @@ rust_crate(
     edition = "2021",
     deps = [
         ":libc",
-        ":winapi",
+        
     ],
 )
 
@@ -1057,6 +1057,7 @@ rust_crate(
     crate = "pin-project-internal",
     version = "1.1.10",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
         ":proc_macro2",
         ":quote",
@@ -1090,16 +1091,13 @@ rust_crate(
         "svg_backend",
     ],
     deps = [
-        ":chrono",
-        ":font_kit",
-        ":image",
-        ":lazy_static",
+        
+        
+        
+        
         ":num_traits",
-        ":pathfinder_geometry",
         ":plotters_backend",
-        ":plotters_bitmap",
         ":plotters_svg",
-        ":ttf_parser",
         ":wasm_bindgen",
         ":web_sys",
     ],
@@ -1203,6 +1201,7 @@ rust_crate(
     crate = "prost-derive",
     version = "0.14.1",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
         ":anyhow",
         ":itertools",
@@ -1413,6 +1412,7 @@ rust_crate(
     crate = "rustix",
     version = "1.1.3",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "alloc",
         "default",
@@ -1421,10 +1421,10 @@ rust_crate(
     ],
     deps = [
         ":bitflags",
-        ":libc_errno",
+        
         ":libc",
         ":linux_raw_sys",
-        ":windows_sys",
+        
     ],
 )
 
@@ -1443,7 +1443,7 @@ rust_crate(
     version = "1.0.6",
     edition = "2021",
     deps = [
-        ":winapi_util",
+        
     ],
 )
 
@@ -1479,6 +1479,7 @@ rust_crate(
     deps = [
         ":serde_derive",
     ],
+    build_root = "build.rs",
 )
 
 rust_crate(
@@ -1486,6 +1487,7 @@ rust_crate(
     crate = "serde_derive",
     version = "1.0.228",
     edition = "2021",
+    crate_type = "proc-macro",
     features = [
         "default",
     ],
@@ -1570,7 +1572,7 @@ rust_crate(
     ],
     deps = [
         ":libc",
-        ":windows_sys",
+        
     ],
 )
 
@@ -1626,7 +1628,7 @@ rust_crate(
         ":getrandom",
         ":once_cell",
         ":rustix",
-        ":windows_sys",
+        
     ],
 )
 
@@ -1668,7 +1670,7 @@ rust_crate(
         ":pin_project_lite",
         ":socket2",
         ":tokio_macros",
-        ":windows_sys",
+        
     ],
 )
 
@@ -1935,7 +1937,7 @@ rust_crate(
     ],
     deps = [
         ":once_cell",
-        ":valuable",
+        
     ],
 )
 
@@ -1970,7 +1972,7 @@ rust_crate(
     edition = "2021",
     deps = [
         ":same_file",
-        ":winapi_util",
+        
     ],
 )
 
@@ -1981,27 +1983,6 @@ rust_crate(
     edition = "2021",
     deps = [
         ":try_lock",
-    ],
-)
-
-rust_crate(
-    name = "wasi",
-    crate = "wasi",
-    version = "0.11.1+wasi-snapshot-preview1",
-    edition = "2021",
-    features = [
-        "default",
-        "std",
-    ],
-)
-
-rust_crate(
-    name = "wasip2",
-    crate = "wasip2",
-    version = "1.0.1+wasi-0.2.4",
-    edition = "2021",
-    deps = [
-        ":wit_bindgen",
     ],
 )
 
@@ -2017,7 +1998,7 @@ rust_crate(
     deps = [
         ":cfg_if",
         ":once_cell",
-        ":rustversion_compat",
+        
         ":wasm_bindgen_macro",
         ":wasm_bindgen_shared",
     ],
@@ -2103,9 +2084,9 @@ rust_crate(
     edition = "2021",
     deps = [
         ":bitflags",
-        ":futures",
+        
         ":once_cell",
-        ":wit_bindgen_rust_macro",
+        
     ],
 )
 
@@ -2129,6 +2110,7 @@ rust_crate(
     crate = "zerocopy-derive",
     version = "0.8.31",
     edition = "2021",
+    crate_type = "proc-macro",
     deps = [
         ":proc_macro2",
         ":quote",
