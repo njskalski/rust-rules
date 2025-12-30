@@ -112,6 +112,7 @@ rust_crate(
     crate = "anyhow",
     version = "1.0.100",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "std",
@@ -445,6 +446,7 @@ rust_crate(
     crate = "crossbeam-utils",
     version = "0.8.21",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "std",
@@ -612,6 +614,7 @@ rust_crate(
     crate = "getrandom",
     version = "0.3.4",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "std",
     ],
@@ -721,6 +724,7 @@ rust_crate(
     crate = "httparse",
     version = "1.10.1",
     edition = "2018",
+    build_root = "build.rs",
     features = [
         "default",
         "std",
@@ -880,6 +884,7 @@ rust_crate(
     crate = "libc",
     version = "0.2.178",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "std",
@@ -1139,6 +1144,7 @@ rust_crate(
     crate = "prettyplease",
     version = "0.2.37",
     edition = "2021",
+    build_root = "build.rs",
     deps = [
         ":proc_macro2",
         ":syn",
@@ -1150,6 +1156,7 @@ rust_crate(
     crate = "proc-macro2",
     version = "1.0.104",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "proc-macro",
@@ -1260,6 +1267,7 @@ rust_crate(
     crate = "quote",
     version = "1.0.42",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "proc-macro",
@@ -1340,6 +1348,7 @@ rust_crate(
     crate = "rayon-core",
     version = "1.13.0",
     edition = "2021",
+    build_root = "build.rs",
     deps = [
         ":crossbeam_deque",
         ":crossbeam_utils",
@@ -1452,6 +1461,7 @@ rust_crate(
     crate = "serde",
     version = "1.0.228",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "derive",
@@ -1503,6 +1513,7 @@ rust_crate(
     crate = "serde_json",
     version = "1.0.148",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "default",
         "std",
@@ -2095,6 +2106,7 @@ rust_crate(
     crate = "zerocopy",
     version = "0.8.31",
     edition = "2021",
+    build_root = "build.rs",
     features = [
         "simd",
         "derive",
@@ -2123,6 +2135,7 @@ rust_crate(
     crate = "zmij",
     version = "1.0.2",
     edition = "2021",
+    build_root = "build.rs",
 )
 
 
